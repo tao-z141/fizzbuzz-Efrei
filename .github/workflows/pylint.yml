@@ -1,0 +1,44 @@
+name: Auto-Lint
+
+on:
+  push:
+    branches: [ "main","Docker" ]
+  pull_request:
+    branches: [ "main","Docker" ]
+
+permissions:
+  contents: write
+
+jobs:
+  auto-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install linting tools
+        run: |
+          pip install black isort flake8
+
+      - name: Auto-correct style with Black
+        run: |
+          echo "Lancement du formatage automatique Black..."
+          black .
+
+      - name: Auto-correct imports with isort
+        run: |
+          echo "Lancement du formatage automatique isort..."
+          isort .
+
+      - name: Check code with Flake8
+        run: |
+          echo "Analyse Flake8..."
+          flake8 .

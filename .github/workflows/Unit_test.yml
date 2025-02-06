@@ -1,4 +1,4 @@
-name: Python Tests with Coverage
+name: Python Tests with Coverage using Docker
 
 on:
   push:
@@ -10,22 +10,33 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Tu peux laisser cette option pour utiliser un runner Ubuntu
 
     steps:
+      # Étape 1 : Checkout du code
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
-
-      - name: Install dependencies
+      # Étape 2 : Installer Docker
+      - name: Set up Docker
         run: |
-          pip install coverage
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+
+      # Étape 3 : Construire l'image Docker
+      - name: Build Docker image
+        run: |
+          docker build -t fizzbuzz-docker .
+
+      # Étape 4 : Exécuter les tests dans Docker
+      - name: Run tests with Docker
+        run: |
+          docker run fizzbuzz-docker python -m unittest Unit_test.py
+
+      # Étape 5 : Lancer les tests unitaires avec couverture
       - name: Run tests with coverage
         run: |
-          coverage run -m unittest Unit_test.py
-          coverage report
-          coverage xml -o coverage.xml
+          docker run fizzbuzz-docker coverage run -m unittest Unit_test.py
+          docker run fizzbuzz-docker coverage report
+          docker run fizzbuzz-docker coverage xml -o coverage.xml
+

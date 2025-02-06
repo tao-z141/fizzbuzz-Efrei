@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Copie les fichiers du projet dans le conteneur
 COPY . /app
+
 # Copie les fichiers nécessaires au test
 COPY Unit_test.py /app
 

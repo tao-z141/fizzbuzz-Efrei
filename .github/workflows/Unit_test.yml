@@ -19,8 +19,23 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'
+          python-version: '3.6'
 
-      - name: Run unit tests
+      - name: Install dependencies
         run: |
-          python -m unittest Unit_test.py
+          pip install -r requirements.txt
+          pip install coverage  # Installe coverage.py
+
+      - name: Run flake8
+        run: flake8 . 
+
+      - name: Run tests with coverage
+        run: |
+          coverage run -m unittest discover  # Exécute les tests avec coverage
+          coverage report  # Affiche le rapport de couverture dans les logs
+
+      - name: Upload coverage report as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: ./coverage.xml

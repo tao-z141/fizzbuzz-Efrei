@@ -16,16 +16,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Docker image (Python)
-        run: |
-          docker pull python:3.9-slim
-
       - name: Build Docker image for project
         run: |
           docker build -t fizzbuzz-docker .
 
       - name: Run tests with coverage in Docker
         run: |
-          docker run --rm fizzbuzz-docker coverage run -m unittest Unit_test.py
-          docker run --rm fizzbuzz-docker coverage report
-          docker run --rm fizzbuzz-docker coverage xml -o coverage.xml
+          docker run --rm fizzbuzz-docker sh -c "coverage run --source=main -m unittest Unit_test.py && coverage report && coverage xml -o coverage.xml"

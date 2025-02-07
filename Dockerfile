@@ -1,17 +1,19 @@
-# Utilise une image Python officielle comme image de base
+# Use an official Python runtime as a parent image
 FROM python:3.9-slim
 
-# Définit le répertoire de travail dans le conteneur
+# Set the working directory in the container
 WORKDIR /app
 
-# Copie les fichiers du projet dans le conteneur
+# Copy project files into the container
 COPY . /app
 
-# Copie les fichiers nécessaires au test
+# Install dependencies
+RUN pip install --no-cache-dir coverage
+
+# Copy test files
 COPY Unit_test.py /app
 
-# Expose un port si nécessaire (par exemple pour une API ou un serveur, ici pas nécessaire)
 EXPOSE 5000
 
-# Exécute les tests unitaires
-CMD ["python", "-m", "unittest", "Unit_test.py"]
+# Default command to run the unit tests with coverage
+CMD ["coverage", "run", "-m", "unittest", "Unit_test.py"]

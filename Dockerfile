@@ -15,5 +15,5 @@ COPY Unit_test.py /app
 
 EXPOSE 5000
 
-# Default command to run the unit tests with coverage
-CMD ["coverage", "run", "-m", "unittest", "Unit_test.py"]
+CMD ["sh", "-c", "coverage run --source=. -m unittest Unit_test.py && coverage report"]
+

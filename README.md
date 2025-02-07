@@ -8,13 +8,18 @@ J'ai utilisé **Docker** pour exécuter l'application et les tests, et **GitHub 
 ### **Cloner le projet**
 
 git clone https://github.com/tao-z141/fizzbuzz-Efrei
+
 cd fizzbuzz-docker
+
 **Exécuter le programme**
+
 python main.py
+
 **Exécuter les tests**
+
 python -m unittest Unit_test.py
 
-#### **🐳 Utilisation avec Docker**
+#### ** Utilisation avec Docker**
 **Construire l’image Docker**
 
 docker build -t fizzbuzz-docker .
